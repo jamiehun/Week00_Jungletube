@@ -76,7 +76,7 @@
  
     });
     // 회원가입 클릭시
-    function sighup() {
+    function signup() {
       console.log("회원가입신청!")
 
       let userId = $("#user-id").val()
@@ -85,7 +85,7 @@
       console.log(userId, userPwd)
       $.ajax({
         type: "POST",
-        url: "/api/sighin",
+        url: "/api/signin",
         data: { 'give_id': userId, 'give_pwd': userPwd, 'give_nick': userNick },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
@@ -414,10 +414,6 @@
       <p class="mb-1 align-center">정글에서 살아남기!</p>
     </div>
   </footer>
-
-
-  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 
