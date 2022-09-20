@@ -7,8 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.84.0">
-  <link rel="shortcut icon" type="image/x-icon"
-    href="https://cdn-icons-png.flaticon.com/512/1776/1776999.png">
+  <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1776/1776999.png">
   <title>정글튜브</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
@@ -73,15 +72,15 @@
   <script>
     // 시작하면 실행하기
     $(document).ready(function () {
- 
+
     });
     // 회원가입 클릭시
     function signup() {
       console.log("회원가입신청!")
 
-      let userId = $("#user-id").val()
-      let userPwd = $("#user-pwd").val()
-      let userNick = $("#user-nickname").val()
+      let userId = $("#floatingId").val()
+      let userPwd = $("#floatingPassword").val()
+      let userNick = $("#floatingNick").val()
       console.log(userId, userPwd)
       $.ajax({
         type: "POST",
@@ -100,14 +99,14 @@
     function checkLogin() {
       console.log("로그인 신청!")
 
-      let userId = $("#floatingInput").val()
-      let userPwd = $("#floatingPassword").val()
-      console.log(userId, userPwd)
+      let checkUserId = $("#loginID").val()
+      let checkUserPwd = $("#loginPwd").val()
+      console.log(checkUserId, checkUserPwd)
 
       $.ajax({
         type: "POST",
         url: "/api/login",
-        data: { 'give_id': userId, 'give_pwd': userPwd},
+        data: { 'give_id': checkUserId, 'give_pwd': checkUserPwd},
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
             alert("저장 완료!");
@@ -120,8 +119,8 @@
     function uploadVideo() {
       console.log("업로드 신청!")
       let category = $("#category").val()
-      let url = $("#url").val()
-      let comment = $("#comment").val()
+      let url = $("#floatingUrl").val()
+      let comment = $("#floatingTextarea2").val()
 
       console.log(category, url, comment)
 
@@ -235,7 +234,7 @@
       </div>
 
       <div style="margin:auto">
-        <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#upload" style="display:none">
+        <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#upload">
           글쓰기
         </a>
         <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#sigh">
@@ -317,18 +316,22 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="wrap">
-                    <div class="input">
-                      <p>ID : <input type="text" id="user-id" value=""></p>
-                      <p>PW : <input type="password" id="user-pwd" value=""></p>
-                      <p>별명 : <input type="text" id="user-nickname" value=""></p>
-                    </div>
-
+                  <div class="form-floating mb-3">
+                    <input type="id" class="form-control" id="floatingId" placeholder="name@example.com">
+                    <label for="floatingId">아이디</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">패스워드</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingNick" placeholder="별명">
+                    <label for="floatingNick">별명</label>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" class="btn btn-primary" onclick="sighup()" data-bs-dismiss="modal">가입하기</button>
+                  <button type="button" class="btn btn-primary" onclick="signup()" data-bs-dismiss="modal">가입하기</button>
                 </div>
               </div>
             </div>
@@ -345,19 +348,19 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">ID</label>
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="loginID" placeholder="name@example.com">
+                    <label for="floatingId">아이디</label>
                   </div>
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+                    <label for="floatingPassword">패스워드</label>
                   </div>
 
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sigh">회원가입</button>
+                  <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sign">회원가입</button>
                   <button type="button" class="btn btn-primary" onclick="checkLogin()">로그인</button>
                 </div>
               </div>
@@ -375,19 +378,25 @@
                 </div>
                 <div class="modal-body">
                   <div class="wrap modal-v1">
-                    <div class="input">
-                      분류 :
-                      <select name="category" id="category">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="category" aria-label="Floating label select example">
                         <option value="week3">week3</option>
                         <option value="week2">week2</option>
                         <option value="week1">week1</option>
                         <option value="week0">week0</option>
                       </select>
-
-                      <p>URL : <input type="url" id="url" value=""></p>
-                      <p>코멘트 :</p>
-                      <textarea type="text" id="comment" value=""></textarea>
+                      <label for="floatingSelect">카테고리 선택</label>
                     </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="floatingUrl" placeholder="link">
+                      <label for="floatingUrl">링크</label>
+                    </div>
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                        style="height: 100px"></textarea>
+                      <label for="floatingTextarea2">코멘트</label>
+                    </div>
+
 
                   </div>
                 </div>
