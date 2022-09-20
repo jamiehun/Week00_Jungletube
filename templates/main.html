@@ -7,6 +7,8 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.84.0">
+  <link rel="shortcut icon" type="image/x-icon"
+    href="https://cdn-icons-png.flaticon.com/512/1776/1776999.png">
   <title>정글튜브</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
@@ -71,24 +73,8 @@
   <script>
     // 시작하면 실행하기
     $(document).ready(function () {
-      $("#card-list").html("");
-      showMemo();
+      $("#category-list").html("");
     });
-    // 수정버튼 클릭시 변경 기능
-    function openChange(target) {
-      let id = "memo" + target
-      // 해당 id(지정된 메모)의 div class 'card-body'가 보인다면('block') -> 수정버튼을 눌렀을때 수정창 띄워주기 
-      if ($('#' + id + " div.card-body").css("display") == "block") {
-        // card-body를 가리고
-        $('#' + id + " div.card-body").hide();
-        $('#' + id + " div.mod-card-body").show();
-
-      }// 닫기를 눌렀을때 다시 보여주기 
-      else {
-        $('#' + id + " div.card-body").show();
-        $('#' + id + " div.mod-card-body").hide();
-      }
-    }
     // 회원가입 클릭시
     function sighup() {
       console.log("회원가입신청!")
@@ -96,14 +82,11 @@
       let userId = $("#user-id").val()
       let userPwd = $("#user-pwd").val()
       let userNick = $("#user-nickname").val()
-
-
-
       console.log(userId, userPwd)
       $.ajax({
         type: "POST",
-        url: "/memo",
-        data: { 'give_id': memoId, 'give_title': memoTitle, 'give_text': memoText },
+        url: "/sighin",
+        data: { 'give_id': userId, 'give_pwd': userPwd, 'give_nick': userNick },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
             alert("저장 완료!");
@@ -121,12 +104,10 @@
       let userPwd = $("#floatingPassword").val()
       console.log(userId, userPwd)
 
-
-
       $.ajax({
         type: "POST",
-        url: "/memo",
-        data: { 'give_id': memoId, 'give_title': memoTitle, 'give_text': memoText },
+        url: "/login",
+        data: { 'give_id': userId, 'give_pwd': userPwd},
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
             alert("저장 완료!");
@@ -138,18 +119,16 @@
     // 업로드 클릭시
     function uploadVideo() {
       console.log("업로드 신청!")
-      let weeks = $("#weeks").val()
+      let category = $("#category").val()
       let url = $("#url").val()
-      let comment= $("#comment").val()
+      let comment = $("#comment").val()
 
-      console.log(weeks, url, comment)
-
-
+      console.log(category, url, comment)
 
       $.ajax({
         type: "POST",
-        url: "/memo",
-        data: { 'give_id': memoId, 'give_title': memoTitle, 'give_text': memoText },
+        url: "/upload",
+        data: { 'give_category': category, 'give_url': url, 'give_comment': comment },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
             alert("저장 완료!");
@@ -250,12 +229,13 @@
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container">
         <a href="#" class="navbar-brand d-flex align-items-center">
-          <strong>정글튜브</strong>
+          <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+          <strong style="margin-left: 10px;">정글튜브</strong>
         </a>
       </div>
 
-      <div style="margin: 10px;">
-        <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#upload">
+      <div style="margin:auto">
+        <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#upload" style="display:none">
           글쓰기
         </a>
         <a href="#" class=" align-items" data-bs-toggle="modal" data-bs-target="#sigh">
@@ -264,7 +244,7 @@
         <a href="#" class=" align-items login" data-bs-toggle="modal" data-bs-target="#login">
           로그인
         </a>
-        <a href="#" class=" align-items logout" data-bs-toggle="modal" data-bs-target="#sigh" di>
+        <a href="#" class=" align-items logout" data-bs-toggle="modal" data-bs-target="#sigh" style="display:none">
           로그아웃
         </a>
       </div>
@@ -276,7 +256,7 @@
     <!-- 주차별 동영상 섹션-->
 
 
-    <div class="album py-5 bg-light">
+    <div class="album py-5 bg-light" id="category-list">
       <div class="container">
         <h1> Week 01 알고리즘</h1>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -332,6 +312,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
                   <h5 class="modal-title" id="exampleModalLabel">회원가입</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -359,6 +340,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
                   <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -387,6 +369,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
                   <h5 class="modal-title" id="exampleModalLabel">업로드</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -394,7 +377,7 @@
                   <div class="wrap modal-v1">
                     <div class="input">
                       분류 :
-                      <select name="category" id="weeks">
+                      <select name="category" id="category">
                         <option value="week3">week3</option>
                         <option value="week2">week2</option>
                         <option value="week1">week1</option>
