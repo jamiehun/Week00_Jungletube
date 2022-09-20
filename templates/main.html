@@ -85,7 +85,7 @@
       console.log(userId, userPwd)
       $.ajax({
         type: "POST",
-        url: "/sighin",
+        url: "/api/sighin",
         data: { 'give_id': userId, 'give_pwd': userPwd, 'give_nick': userNick },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
@@ -106,7 +106,7 @@
 
       $.ajax({
         type: "POST",
-        url: "/login",
+        url: "/api/login",
         data: { 'give_id': userId, 'give_pwd': userPwd},
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
@@ -127,7 +127,7 @@
 
       $.ajax({
         type: "POST",
-        url: "/upload",
+        url: "/api/upload",
         data: { 'give_category': category, 'give_url': url, 'give_comment': comment },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
