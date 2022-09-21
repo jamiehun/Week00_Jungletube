@@ -124,7 +124,7 @@
         data: { 'give_id': checkUserId, 'give_pwd': checkUserPwd },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
-            alert("저장 완료!");
+            console.log(response['access_token'])
             window.location.reload()
           }
         }
