@@ -37,7 +37,7 @@ def main():
          # 비디오 개수에 대한 정보 확인
         videoCount = len(video_list) # 비디오 개수 세기
         collectionCount = math.ceil(videoCount / 4) # 비디오 개수 4개로 자르기
-        dummyCount = 4 - (videoCount % 4) # 비디오 개수 중 4의 배수가 아닌 수에 대한 dummy값 확인
+        dummyCount = lambda x : (4 - (videoCount % 4)) if x != 4 else 0   # 비디오 개수 중 4의 배수가 아닌 수에 대한 dummy값 확인
         card_count[i] = {'collectionCount' : collectionCount, 'dummyCount' : dummyCount, 'cardCount' : videoCount}   
     
     return render_template('child.html', dict = dict, card_count = card_count)
