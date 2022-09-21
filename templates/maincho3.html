@@ -92,6 +92,14 @@
   </style>
   <script>
 
+    $(document).ready(function () {
+      if ($.cookie('mytoken')) {
+        $("#login").hide();
+        $("#signup").hide();
+        $("#upload").show();
+        $("#logout").show();
+      }
+    });
     // 회원가입 클릭시
     function signup() {
       console.log("회원가입신청!")
@@ -156,7 +164,7 @@
           xhr.setRequestHeader("Authorization", "Bearer " + token);//header추가
         },
         success: function (res) {
-          if (response['result'] == 'success'){
+          if (response['result'] == 'success') {
             console.log('hi')
           }
         }
@@ -496,7 +504,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#signupModal">회원가입</button>
+              <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                data-bs-target="#signupModal">회원가입</button>
               <button type="button" class="btn btn-primary" onclick="checkLogin()">로그인</button>
             </div>
           </div>
