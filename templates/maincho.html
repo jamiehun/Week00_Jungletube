@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.84.0">
+  <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1776/1776999.png">
+  <title>정글튜브</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+
+
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <!-- 토스 폰트 -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+
+  <style>
+    * {
+      font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .signup {
+      color: #87A2FB;
+    }
+
+    .login {
+      color: white;
+    }
+
+    .logout {
+
+      color: CD104D;
+    }
+
+    .modal-v1 {
+      margin: 10px;
+    }
+
+    .video-view {
+
+      white-space: nowrap;
+      overflow: auto;
+    }
+
+    .card-form {
+      margin: 10px;
+    }
+
+    .cards {
+      margin: 30px;
+    }
+
+    #category-list {
+      padding: 10px;
+    }
+  </style>
+  <script>
+
+    // 회원가입 클릭시
+    function signup() {
+      console.log("회원가입신청!")
+
+      let userId = $("#floatingId").val()
+      let userPwd = $("#floatingPassword").val()
+      let userNick = $("#floatingNick").val()
+      console.log(userId, userPwd)
+      $.ajax({
+        type: "POST",
+        url: "/api/signin",
+        data: { 'give_id': userId, 'give_pwd': userPwd, 'give_nick': userNick },
+        success: function (response) { // 성공하면
+          if (response["result"] == "success") {
+            alert("저장 완료!");
+            window.location.reload()
+          }
+        }
+      })
+    }
+
+    // 로그인 클릭시
+    function checkLogin() {
+      console.log("로그인 신청!")
+
+      let checkUserId = $("#loginID").val()
+      let checkUserPwd = $("#loginPassword").val()
+      console.log(checkUserId, checkUserPwd)
+
+      $.ajax({
+        type: "POST",
+        url: "/api/login",
+        data: { 'give_id': checkUserId, 'give_pwd': checkUserPwd },
+        success: function (response) { // 성공하면
+          if (response["result"] == "success") {
+            alert("저장 완료!");
+            if (response['result'] == 'success') {
+              $.cookie('mytoken', response['token'], { path: '/' });
+              window.location.replace("/main")
+            } else {
+              alert(response['msg'])
+            }
+          }
+        }
+      })
+    }
+    // 업로드 클릭시
+    function uploadVideo() {
+      console.log("업로드 신청!")
+      let category = $("#category").val()
+      let url = $("#floatingUrl").val()
+      let comment = $("#floatingTextarea2").val()
+
+      console.log(category, url, comment)
+
+      $.ajax({
+        type: "POST",
+        url: "/api/upload",
+        data: { 'give_category': category, 'give_url': url, 'give_comment': comment },
+        success: function (response) { // 성공하면
+          if (response["result"] == "success") {
+            alert("저장 완료!");
+            window.location.reload()
+          }
+        }
+      })
+    }
+    // 동영상 모달 기능
+    function videoModaladd() {
+      console.log('동영상 모달 실행')
+      let video = `<iframe id="player" type="text/html" width="1100" height="600"
+        src="http://www.youtube.com/embed/D1PvIWdJ8xo?enablejsapi=1&origin=http://example.com" frameborder="0"></iframe>`
+
+      $('#videoModaladd').append(video)
+    }
+    // db에 저장된 동영상 보여주는 기능
+    function showVideo() {
+
+      $.ajax({
+        type: "GET",
+        url: "/api/video",
+        data: {},
+        success: function (response) {
+          if (response["result"] == "success") {
+            let memos = response['memos']
+            console.log(memos)
+            for (let i = 0; i < memos.length; i++) {
+              let memeTitle = memos[i]['title']
+              let memoText = memos[i]['text']
+              makeMemo(i, memeTitle, memoText)
+            }
+          }
+        }
+      })
+    }
+    // 동영상 생성 섹션 (주차별로 구현할때 첫 캐러솔의 목록(맨 첫 4개의 영상)의 기능이 다름 -> )
+    function makeMemo(num, title, text) {
+      let newMemo = `<div class="card" id="memo${num}">
+
+              <div class="card-body">
+                  <h4 class="card-title">${title}</h4>
+                  <h5 class="card-text">${text}</h5>
+                  <button onclick="openChange(${num})" class="button-base change">수정</button>
+                  <button onclick="deleteMemo('${title}')" class="button-base delete">삭제</button>
+              </div>
+
+              <div class="mod-card-body" id='change-box' style="display:none">
+                  <div class="form-group">
+                      <input class="form-control mod-title" value="${title}">
+                  </div>
+                  <div class="form-group">
+                      <textarea class="form-control mod-text" rows="2" >${text}</textarea>
+                  </div>
+                  <button onclick="changeMemo(${num},'${title}')" class="button-base save">저장</button>
+                  <button onclick="openChange(${num})" class="button-base delete">닫기</button>
+                  
+              </div>
+
+          </div>`
+
+      let firstVideoList = ``
+
+      $("#card-list").append(newMemo)
+    }
+    // 내용 변경 기능
+    function changeMemo(target, oriTitle) {
+      let id = "memo" + target
+      let memoTitle = $('#' + id + " input.mod-title").val()
+      let memoText = $('#' + id + " textarea.mod-text").val()
+      $.ajax({
+        type: 'POST',
+        url: '/api/change',
+        data: { 'orititle_give': oriTitle, 'title_give': memoTitle, 'text_give': memoText },
+        success: function (response) {
+          if (response['result'] == 'success') {
+            alert("변경 완료!")
+            // 새로고침
+            window.location.reload()
+          }
+        }
+      });
+    }
+    // 메모 삭제 기능
+    function deleteMemo(title) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/delete',
+        data: { 'title_give': title },
+        success: function (response) {
+          if (response['result'] == 'success') {
+            alert("삭제 완료!")
+            // 새로고침
+            window.location.reload()
+          }
+        }
+      });
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <header>
+
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+          <strong style="margin-left: 10px;">정글튜브</strong>
+        </a>
+      </div>
+
+      <div style="margin:auto">
+        <a href="#" class=" align-items signup" data-bs-toggle="modal" data-bs-target="#videoModal" onclick="videoModaladd()">
+          동영상 모달 실험
+        </a>
+        <a href="#" class=" align-items signup" data-bs-toggle="modal" data-bs-target="#signup">
+          회원가입
+        </a>
+        <a href="#" class=" align-items login" data-bs-toggle="modal" data-bs-target="#login">
+          로그인
+        </a>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 주차별 동영상 섹션-->
+
+    <div class="album py-5 bg-light" id="category-list">
+      <h2> Week 01 알고리즘</h2>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="row cards">
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/mqdefault.jpg"
+                  alt="유튜브 썸네일(https://img.youtube.com/vi/고유id/0.jpg)" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">첫번째 열 한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+              <!-- 더미카드-->
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://i.ytimg.com/vi/yPku0DdMHIw/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">영상이 없습니다. 여러분의 도움이 필요해요!</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <i class="bi bi-emoji-frown"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 두번째열 -->
+          <div class="carousel-item">
+            <div class="row cards">
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">두번째열 한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card col card-form" style="width: 18rem;">
+                <img src="https://img.youtube.com/vi/YwC0m0XaD2E/0.jpg" alt="유튜브 썸네일" class="" alt="..."
+                  style="height: 150px; width:auto;">
+                <div class="card-body">
+                  <p class="card-text">한줄 코멘트.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a><i class="bi bi-fire"></i>3</a>
+                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <img src="https://cdn-icons-png.flaticon.com/512/467/467274.png" style="height: 20px;" />
+          </button>
+          <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <img src="https://cdn-icons-png.flaticon.com/512/467/467282.png" style="height: 20px;" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- 모달 섹션-->
+      <!-- 회원가입 Modal 섹션-->
+      <div class=" modal fade" id="signup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+              <h5 class="modal-title" id="exampleModalLabel">회원가입</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-floating mb-3">
+                <input type="id" class="form-control" id="floatingId" placeholder="name@example.com">
+                <label for="floatingId">아이디</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">패스워드</label>
+              </div>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingNick" placeholder="별명">
+                <label for="floatingNick">별명</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-primary" onclick="signup()" data-bs-dismiss="modal">가입하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 로그인 Modal -->
+      <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+              <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="loginID" placeholder="name@example.com">
+                <label for="floatingId">아이디</label>
+              </div>
+              <div class="form-floating">
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+                <label for="floatingPassword">패스워드</label>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#signup">회원가입</button>
+              <button type="button" class="btn btn-primary" onclick="checkLogin()">로그인</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 업로드 Modal -->
+      <div class="modal fade" id="upload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+              <h5 class="modal-title" id="exampleModalLabel">업로드</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="wrap modal-v1">
+                <div class="form-floating mb-3">
+                  <select class="form-select" id="category" aria-label="Floating label select example">
+                    <option value="week3">week3</option>
+                    <option value="week2">week2</option>
+                    <option value="week1">week1</option>
+                    <option value="week0">week0</option>
+                  </select>
+                  <label for="floatingSelect">카테고리 선택</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingUrl" placeholder="link">
+                  <label for="floatingUrl">링크</label>
+                </div>
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                    style="height: 100px"></textarea>
+                  <label for="floatingTextarea2">코멘트</label>
+                </div>
+
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="uploadVideo()">업로드</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 동영상 Modal -->
+      <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
+              <h5 class="modal-title" id="exampleModalLabel">코멘트 넣어주면될듯</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body videoModaladd">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+  </main>
+
+  <footer class="text-muted py-5">
+    <div class="container">
+      <p class="" style="text-align: center;">함께 정글에서 살아남자🔥 </p>
+      <p class="float-end mb-1">
+        <a href="#">위로</a>
+      </p>
+    </div>
+    <div class="container">
+      <p class="" style="text-align: center; margin-left: 1.5rem"> 7조 정성훈 김현진 조성배😊</p>
+    </div>
+
+  </footer>
+
+</body>
+
+</html>
