@@ -1,11 +1,18 @@
 from flask import Flask, render_template, redirect, url_for, jsonify, request, session
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 import bcrypt
 from pymongo import MongoClient
 
 app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = "junglekim"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400 # 초 단위
+app.config['JWT_TOKEN_LOCATION'] = ['headers', 'query_string']
+jwt = JWTManager(app)
+
 app.secret_key = "key"
 
-client = MongoClient('localhost', 27017) 
+client = MongoClient('mongodb://cho:cho@13.124.49.24', 27017) 
 db = client.jungletube
 
 @app.route('/')
@@ -16,27 +23,26 @@ def main():
 def login():
     receive_id = request.form['give_id']
     receive_pwd = request.form['give_pwd']
-    error_n = 0
 
     searched_id = db.users.find_one({'id':receive_id})
     
     if searched_id == None:     # 회원가입 되지 않은 ID 오류
-        error_n = 1
+        return jsonify({"msg": "가입하지 않은 ID"}), 400
     else:
         byte_pwd = receive_pwd.encode('UTF-8')
         origin_pwd = bytes.fromhex(searched_id['password'])
 
         if bcrypt.checkpw(byte_pwd, origin_pwd):
-            session['login'] = receive_id
+            access_token = create_access_token(identity=receive_id)     # 엑세스 토큰 발행
         else:       # 잘못된 비밀번호 오류
-            error_n = 2
+            return jsonify({"msg": "잘못된 비밀번호"}), 400
 
-    return jsonify({'result':'success', 'error': error_n})
+    return jsonify({'result':'success', 'access_token':access_token})
 
 @app.route('/api/logout', methods=['GET'])
+@jwt_required()
 def logout():
-    session.pop('login', None)
-    
+        
     return jsonify({'result':'success'})
 
 @app.route('/api/signin', methods=['POST'])
