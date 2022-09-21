@@ -166,6 +166,10 @@
         success: function (res) {
           if (response['result'] == 'success') {
             console.log('hi')
+            $("#login").show();
+            $("#signup").show();
+            $("#upload").hide();
+            $("#logout").hide();
           }
         }
       });
@@ -198,12 +202,10 @@
       })
     }
     // 동영상 모달 기능
-    function videoModaladd() {
-      console.log('동영상 모달 실행')
-      let video = `<iframe id="player" type="text/html" width="1100" height="600"
-        src="http://www.youtube.com/embed/D1PvIWdJ8xo?enablejsapi=1&origin=http://example.com" frameborder="0"></iframe>`
+    function videoModalExit() {
+      console.log('동영상 모달 닫았을때')
 
-      $('#videoModaladd').append(video)
+      $('#videoModalExit').html("")
     }
     // db에 저장된 동영상 보여주는 기능
     function showVideo() {
@@ -563,10 +565,13 @@
               <h5 class="modal-title" id="exampleModalLabel">코멘트 넣어주면될듯d</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body videoModaladd">
+            <div class="modal-body" id="videoModalExit">
+              <iframe id="player" type="text/html" width="1100" height="600"
+                src="http://www.youtube.com/embed/D1PvIWdJ8xo?enablejsapi=1&origin=http://example.com"
+                frameborder="0"></iframe>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="videoModalExit()">닫기</button>
             </div>
           </div>
         </div>
