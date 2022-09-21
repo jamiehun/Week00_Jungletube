@@ -1,5 +1,5 @@
-from flask import Flask, render_template, redirect, url_for, jsonify, request, session
-from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required, get_jwt
+from flask import Flask, render_template, redirect, url_for, jsonify, request, session, make_response
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies
 import bcrypt
 from pymongo import MongoClient
 
@@ -18,10 +18,6 @@ db = client.jungletube
 @app.route('/')
 def main():
     return render_template('maincho3.html')
-
-@app.route('/loginpage')
-def logmain():
-    return render_template('loginMain.html')
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -43,10 +39,13 @@ def login():
 
     return jsonify({'result':'success', 'token':access_token})
 
-@app.route('/api/logout', methods=['GET'])
+@app.route('/api/logout', methods=['POST'])
+@jwt_required()
 def logout():
-    
-    return jsonify({'result':'success'})
+    resp = make_response(render_template('maincho3.html'))
+    test = {'name':'kim'}
+    unset_jwt_cookies(resp)
+    return resp
 
 @app.route('/api/signin', methods=['POST'])
 def signin():
