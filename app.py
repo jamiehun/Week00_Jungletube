@@ -97,7 +97,7 @@ def upload():
 
     print(receive_category, receive_url, receive_comment)
 
-    db.cards.insert_one({'category': receive_category, 'url': receive_url, 'comment': receive_comment})
+    db.cards.insert_one({'category': receive_category, 'url': receive_url, 'comment': receive_comment, 'like' : 0})
 
     return jsonify({'result': 'success'})
 
