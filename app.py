@@ -17,7 +17,11 @@ db = client.jungletube
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    return render_template('maincho.html')
+
+@app.route('/loginpage')
+def logmain():
+    return render_template('loginMain.html')
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -37,7 +41,7 @@ def login():
         else:       # 잘못된 비밀번호 오류
             return jsonify({"msg": "잘못된 비밀번호"}), 400
 
-    return jsonify({'result':'success', 'access_token':access_token})
+    return jsonify({'result':'success', 'token':access_token})
 
 @app.route('/api/logout', methods=['GET'])
 @jwt_required()

@@ -16,6 +16,7 @@
 
   <!-- JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" integrity="sha512-aUhL2xOCrpLEuGD5f6tgHbLYEXRpYZ8G5yD+WlFrXrPy2IrWBlu6bih5C9H6qGsgqnU6mgx6KtU8TreHpASprw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
     crossorigin="anonymous"></script>
@@ -126,8 +127,9 @@
           if (response["result"] == "success") {
             alert("저장 완료!");
             if (response['result'] == 'success') {
-              $.cookie('mytoken', response['token'], { path: '/' });
-              window.location.replace("/main")
+              console.log(response['token'])
+              $.cookie('mytoken', response['token']);
+              window.location.replace("/loginpage")
             } else {
               alert(response['msg'])
             }
