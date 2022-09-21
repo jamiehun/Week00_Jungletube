@@ -1,0 +1,186 @@
+{% extends 'maincho3.html' %}
+
+{% block title %}
+<!-- "dict = dict, card_count = card_count" -->
+<!-- {'week2': {'collectionCount': 1, 'dummyCount': 3, 'cardCount': 1}, -->
+
+{% for key, value in dict.items() %}
+
+<!-- 타이틀 부분 -->
+<div class="album py-5 bg-light" id="category-list">
+  <h1> {{ key }} </h1>
+  <!-- if collection >= 2 -->
+  {% if card_count[key]['collectionCount'] >= 2%}
+  {% set count_two = namespace(value=1) %}
+  {% for temp in value %}
+
+  <!-- 첫번째 카드에는 div coursel 넣어주기 -->
+  {% if count_two.value == 1 %}
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row cards">
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+
+          {% elif count_two.value != 1 and count_two.value % 4 == 1 %}
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item">g
+                <div class="row cards">
+                <div class="card col card-form" style="width: 18rem;">
+                  <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+                  <div class="card-body">
+                    <p class="card-text">{{ temp['comment'] }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                      <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                {% elif count_two.value % 4 == 0 %}
+                <div class="card col card-form" style="width: 18rem;">
+                  <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+                  <div class="card-body">
+                    <p class="card-text">{{ temp['comment'] }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                      <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% else %}
+        <div class="card col card-form" style="width: 18rem;">
+          <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+          <div class="card-body">
+            <p class="card-text">{{ temp['comment'] }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+              <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+            </div>
+          </div>
+        </div>
+
+        {% endif %}
+        {% set count_two.value = count_two.value + 1 %}
+        {% endfor %}
+
+        {% for i in range(card_count[key]['dummyCount']) %}
+        <div class="card col card-form" style="width: 18rem;">
+          <img src="https://i.ytimg.com/vi/yPku0DdMHIw/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
+            style="height: 150px; width:auto;">
+          <div class="card-body">
+            <p class="card-text">영상이 없습니다. 여러분의 도움이 필요해요!</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <i class="bi bi-emoji-frown"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+
+
+
+      <!-- if collection <= 1 -->
+      {% if card_count[key]['collectionCount'] <= 1%} <!-- 실제 카드 받는 부분 -->
+        <!-- 
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+    <div class="carousel-item"> 
+  -->
+        <div class="row cards">
+
+          <!-- 카드 갯수가 4개 이하이면 class에 action 없이 구현 -->
+          <!-- 카드개수 : {{ card_count[key]['cardCount'] }} -->
+          <!-- dummy 개수 : {{ card_count[key]['dummyCount'] }} -->
+          <!-- <p>'{{ key }}'</p> -->
+          <!-- <p>{{ card_count}}</p> -->
+          <!-- <p>{{ card_count[key]['cardCount'] }}</p> -->
+
+
+          {% set count_one = namespace(value=1) %}
+          {% for temp in value %}
+          {% if count_one.value % 4 == 1 %}
+          <!-- 첫번째 카드 -->
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 네번째 카드 -->
+          {% elif count_one.value % 4 == 0 %}
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 나머지 카드 -->
+          {% else %}
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link" onclick="likeClick()"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% set count_one.value = count_one.value + 1 %}
+          {% endfor %}
+
+          <!-- dummy 올리기 -->
+          {% for i in range(card_count[key]['dummyCount']) %}
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="https://i.ytimg.com/vi/yPku0DdMHIw/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
+              style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">영상이 없습니다. 여러분의 도움이 필요해요!</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <i class="bi bi-emoji-frown"></i>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+    <!--
+    </div>
+  </div>
+</div>
+-->
+
+    {% endfor %}
+    {% endblock %}
