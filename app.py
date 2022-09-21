@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, jsonify, request, s
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies
 import bcrypt
 from pymongo import MongoClient
+import math
 
 app = Flask(__name__)
 
@@ -15,10 +16,31 @@ app.secret_key = "key"
 client = MongoClient('mongodb://cho:cho@13.124.49.24', 27017) 
 db = client.jungletube
 
-# fas
 @app.route('/')
 def main():
-    return render_template('maincho3.html')
+    # db.cards에서 category 찾아서 week만 분류해놓기
+    category_list = []
+    for name in db.cards.find():
+        temp = name['category']
+        if temp not in category_list:
+            category_list.append(temp)
+        category_list.sort(reverse=True)
+
+    # 분류된 week를 기준으로 like 순으로 정렬하여 리스트 만들기
+    dict = {}
+    card_count = {}
+    for i in category_list:
+        # 비디오 리스트 세기
+        video_list = list(db.cards.find({'category' : i}, {'_id': 0}).sort('like', -1))
+        dict[i] = video_list 
+ 
+         # 비디오 개수에 대한 정보 확인
+        videoCount = len(video_list) # 비디오 개수 세기
+        collectionCount = math.ceil(videoCount / 4) # 비디오 개수 4개로 자르기
+        dummyCount = 4 - (videoCount % 4) # 비디오 개수 중 4의 배수가 아닌 수에 대한 dummy값 확인
+        card_count[i] = {'collectionCount' : collectionCount, 'dummyCount' : dummyCount, 'cardCount' : videoCount}   
+    
+    return render_template('child.html', dict = dict, card_count = card_count)
 
 @app.route('/api/login', methods=['POST'])
 def login():
