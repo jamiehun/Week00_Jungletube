@@ -2,36 +2,115 @@
 
 {% block title %}
 <p>{{ card_count }}</p>
+<!-- "dict = dict, card_count = card_count" -->
+<!-- {'week2': {'collectionCount': 1, 'dummyCount': 3, 'cardCount': 1}, -->
+
 {% for key, value in dict.items() %}
 <!-- 타이틀 부분 -->
 <div class="album py-5 bg-light" id="category-list">
   <h1> {{ key }} </h1>
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  </div>
-</div>
-<!-- 카드 묶는 부분 -->
-<div class="carousel-inner">
-  <div class="carousel-item active">
-    <div class="row cards">
+    <div class="carousel-inner">
 
-      {% for temp in value %}
+      <!-- 카드 갯수가 4개 이하이면 class에 action 없이 구현 -->
+      <!-- 카드개수 : {{ card_count[key]['cardCount'] }} -->
+      <!-- dummy 개수 : {{ card_count[key]['dummyCount'] }} -->
+      <!-- <p>'{{ key }}'</p> -->
+      <!-- <p>{{ card_count}}</p> -->
+      <!-- <p>{{ card_count[key]['cardCount'] }}</p> -->
       
-      <!-- 개별카드  -->
-      <!-- [{'category': 'week2', 'comment': 'dijkstra', 'url': 'https://youtu.be/611B-9zk2o4', 'like': 3}] -->
-      <div class="card col card-form" style="width: 18rem;">
-        <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
-        <div class="card-body">
-          <p class="card-text">{{ temp['comment'] }}</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-            <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+      <!-- if collection <= 1 -->
+      {% if card_count[key]['collectionCount'] <= 1%}
+      
+      <!-- 실제 카드 받는 부분 -->
+        {% set count_one = namespace(value=1) %}
+        {% for temp in value %}
+        <!-- 첫번째 카드 -->
+        {% if count_one.value % 4 == 1 %}          
+        <div class="carousel-item">
+         <div class="row cards">
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- 네번째 카드 -->
+        {% elif count_one.value % 4 == 1 %} 
+           <div class="card col card-form" style="width: 18rem;">
+             <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+             <div class="card-body">
+               <p class="card-text">{{ temp['comment'] }}</p>
+               <div class="d-flex justify-content-between align-items-center">
+                 <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                 <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+               </div>
+             </div>
+           </div>
           </div>
         </div>
-      </div>
-      {% endfor %}
+        {% endif %}
+
+
+
+        {% endif %}
+       {% endfor %}
+
+
+
     </div>
   </div>
 </div>
-{% endfor %}
 
+
+{% endfor %}
 {% endblock %}
+      
+      
+      <!-- <div class="carousel-item">
+        <div class="row cards">
+
+          {# 실제로 카드 가져오는 코드 #}
+          {% for temp in value %}
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div> -->
+
+<!-- 이전 버전 
+    -- 카드 묶는 부분 --
+      <div class="carousel-item active">
+        <div class="row cards">
+          {% for temp in value %}
+          -- 개별카드  --
+          -- [{'category': 'week2', 'comment': 'dijkstra', 'url': 'https://youtu.be/611B-9zk2o4', 'like': 3}] --
+          <div class="card col card-form" style="width: 18rem;">
+            <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+            <div class="card-body">
+              <p class="card-text">{{ temp['comment'] }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+                <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+  -->
