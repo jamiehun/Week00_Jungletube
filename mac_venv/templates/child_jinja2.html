@@ -1,0 +1,37 @@
+{% extends 'main_jinja2.html' %}
+
+{% block title %}
+<p>{{ card_count }}</p>
+{% for key, value in dict.items() %}
+<!-- 타이틀 부분 -->
+<div class="album py-5 bg-light" id="category-list">
+  <h1> {{ key }} </h1>
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  </div>
+</div>
+<!-- 카드 묶는 부분 -->
+<div class="carousel-inner">
+  <div class="carousel-item active">
+    <div class="row cards">
+
+      {% for temp in value %}
+      
+      <!-- 개별카드  -->
+      <!-- [{'category': 'week2', 'comment': 'dijkstra', 'url': 'https://youtu.be/611B-9zk2o4', 'like': 3}] -->
+      <div class="card col card-form" style="width: 18rem;">
+        <img src="{{ temp['url'] }} " alt="유튜브 썸네일" class="" alt="..." style="height: 150px; width:auto;">
+        <div class="card-body">
+          <p class="card-text">{{ temp['comment'] }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
+            <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

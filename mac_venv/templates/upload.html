@@ -1,0 +1,49 @@
+<!-- 글올리기 박스 구현 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload page</title>
+</head>
+<style>
+    .wrap {
+        border: 1px solid grey;
+        height: 400px;
+        width: 300px;
+        margin: auto;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .input {
+        padding: 20px;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <h1>글올리기</h1>
+        <div class="input">
+            분류 :
+            <select name="category">
+                <option value="">week3</option>
+                <option value="">week2</option>
+                <option value="">week1</option>
+                <option value="">week0</option>
+            </select>
+
+            <p>코멘트 : <input type="text" name="comment" value=""></p>
+            <p>URL : <input type="url" name="url" value=""></p>
+        </div>
+        <div class="btn">
+            <input type="button" value="업로드">
+            <input type="button" value="취소">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
