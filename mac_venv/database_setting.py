@@ -25,6 +25,7 @@ for name in db.users.find():
     category_list.sort(reverse=True)
 
 # 분류된 week를 기준으로 like 순으로 정렬하여 리스트 만들기
+# week 올림차순, like 순으로 dictionary 넣기
 dict = {}
 for i in category_list:
     video_list = list(db.users.find({'category' : i}, {'_id': 0}).sort('like', -1))
