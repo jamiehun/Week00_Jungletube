@@ -1,6 +1,7 @@
 {% extends 'maincho3.html' %}
 
 {% block title %}
+
 <!-- "dict = dict, card_count = card_count" -->
 <!-- {'week2': {'collectionCount': 1, 'dummyCount': 3, 'cardCount': 1}, -->
 
@@ -10,7 +11,7 @@
 <div class="album py-5 bg-light" id="category-list">
   <h1> {{ key }} </h1>
   <!-- if collection >= 2 -->
-  {% if card_count[key]['collectionCount'] >= 2%}
+  {% if card_count[key]['collectionCount'] >= 2 %}
   {% set count_two = namespace(value=1) %}
   {% for temp in value %}
 
@@ -183,4 +184,14 @@
 -->
 
     {% endfor %}
+
+    <div style="text-align:center;">
+        <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <img src="https://cdn-icons-png.flaticon.com/512/467/467274.png" style="height: 20px;" />
+        </button>
+        <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <img src="https://cdn-icons-png.flaticon.com/512/467/467282.png" style="height: 20px;" />
+        </button>
+      </div>
+    </div>
     {% endblock %}
