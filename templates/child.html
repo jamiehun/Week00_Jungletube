@@ -17,7 +17,7 @@
 
   <!-- 첫번째 카드에는 div coursel 넣어주기 -->
   {% if count_two.value == 1 %}
-  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div id="{{key}}" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="row cards">
@@ -33,7 +33,7 @@
           </div>
 
           {% elif count_two.value != 1 and count_two.value % 4 == 1 %}
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div id="{{key}}" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item">
                 <div class="row cards">
@@ -183,15 +183,17 @@
 </div>
 -->
 
-    {% endfor %}
-
     <div style="text-align:center;">
-        <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <button class="btn btn-light" type="button" data-bs-target="#{{key}}" data-bs-slide="prev">
           <img src="https://cdn-icons-png.flaticon.com/512/467/467274.png" style="height: 20px;" />
         </button>
-        <button class="btn btn-light" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <button class="btn btn-light" type="button" data-bs-target="#{{key}}" data-bs-slide="next">
           <img src="https://cdn-icons-png.flaticon.com/512/467/467282.png" style="height: 20px;" />
         </button>
       </div>
     </div>
+
+    {% endfor %}
+
+
     {% endblock %}

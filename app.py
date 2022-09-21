@@ -101,5 +101,18 @@ def upload():
 
     return jsonify({'result': 'success'})
 
+@app.route('/api/like', methods=['POST'])
+@jwt_required()
+def like():
+    receive_url = request.form['give_url']
+
+    searched_url = db.cards.find_one({'url': receive_url})
+
+    new_like = searched_url['like'] + 1
+
+    db.cards.update_one({'url': receive_url}, {'$set':{'like': new_like}})
+
+    return jsonify({'result': 'success'})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
