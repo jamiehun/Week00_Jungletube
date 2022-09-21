@@ -9,6 +9,15 @@ mycol = db.users
 # db.users.insert_one({'category':'week0','comment':'jinja_Flask', 'url':'https://youtu.be/NKJV0ekmo4U',  'like' : 1 })
 # db.users.insert_one({'category':'week2','comment':'dijkstra', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 3})
 
+db.users.insert_one({'category':'week3','comment':'a', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 5})
+db.users.insert_one({'category':'week3','comment':'b', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 4})
+db.users.insert_one({'category':'week3','comment':'c', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 2})
+db.users.insert_one({'category':'week3','comment':'d', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 1})
+db.users.insert_one({'category':'week3','comment':'e', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 0})
+db.users.insert_one({'category':'week3','comment':'f', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 12})
+db.users.insert_one({'category':'week3','comment':'g', 'url':'https://youtu.be/611B-9zk2o4', 'like' : 15})
+
+
 # MongoDB에서 전체 delete 하기
 # db.users.delete_many({})
 
