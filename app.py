@@ -68,7 +68,7 @@ def signin():
     return jsonify({'result':'success', 'error': error_n})
 
 @app.route('/api/upload', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def upload():
     receive_category = request.form['give_category']
     receive_url = request.form['give_url']

@@ -177,6 +177,9 @@
       $.ajax({
         type: "POST",
         url: "/api/upload",
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader("Authorization", "Bearer " + token);
+        },
         data: { 'give_category': category, 'give_url': url, 'give_comment': comment },
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
@@ -303,8 +306,7 @@
         <a href="#" id="login" class=" align-items login" data-bs-toggle="modal" data-bs-target="#loginModal">
           로그인
         </a>
-        <a href="#" id="upload" class=" align-items signup" data-bs-toggle="modal" data-bs-target="#uploadModal"
-          style="display: none;">
+        <a href="#" id="upload" class=" align-items signup" data-bs-toggle="modal" data-bs-target="#uploadModal">
           글쓰기
         </a>
         <a href="#" id="logout" class=" align-items logout" onclick="logout()" style="display: none;">
