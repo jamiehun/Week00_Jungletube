@@ -15,6 +15,7 @@ app.secret_key = "key"
 client = MongoClient('mongodb://cho:cho@13.124.49.24', 27017) 
 db = client.jungletube
 
+# fas
 @app.route('/')
 def main():
     return render_template('maincho3.html')
@@ -43,7 +44,6 @@ def login():
 @jwt_required()
 def logout():
     resp = make_response(render_template('maincho3.html'))
-    test = {'name':'kim'}
     unset_jwt_cookies(resp)
     return resp
 
