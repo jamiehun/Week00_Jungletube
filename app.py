@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, jsonify, request, session
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required, get_jwt
 import bcrypt
-import redis
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -11,16 +10,6 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400 # 초 단위
 app.config['JWT_TOKEN_LOCATION'] = ['headers', 'query_string']
 jwt = JWTManager(app)
 
-jwt_redis_blocklist = redis.StrictRedis(
-    host="localhost", port=6379, db=0, decode_responses=True
-)
-
-@jwt.token_in_blocklist_loader
-def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
-    jti = jwt_payload['jti']
-    token_in_redis = jwt_redis_blocklist.get(jti)
-    return token_in_redis is not None
-
 app.secret_key = "key"
 
 client = MongoClient('mongodb://cho:cho@13.124.49.24', 27017) 
@@ -28,7 +17,7 @@ db = client.jungletube
 
 @app.route('/')
 def main():
-    return render_template('maincho.html')
+    return render_template('maincho3.html')
 
 @app.route('/loginpage')
 def logmain():
@@ -55,10 +44,8 @@ def login():
     return jsonify({'result':'success', 'token':access_token})
 
 @app.route('/api/logout', methods=['GET'])
-@jwt_required()
 def logout():
-    jti = get_jwt()['jti']
-    jwt_redis_blocklist.set(jti, "")
+    
     return jsonify({'result':'success'})
 
 @app.route('/api/signin', methods=['POST'])
@@ -81,10 +68,13 @@ def signin():
     return jsonify({'result':'success', 'error': error_n})
 
 @app.route('/api/upload', methods=['POST'])
+# @jwt_required()
 def upload():
     receive_category = request.form['give_category']
     receive_url = request.form['give_url']
     receive_comment = request.form['give_comment']
+
+    print(receive_category, receive_url, receive_comment)
 
     db.cards.insert_one({'category': receive_category, 'url': receive_url, 'comment': receive_comment})
 

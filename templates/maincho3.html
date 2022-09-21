@@ -153,10 +153,12 @@
         url: "/api/logout",
         beforeSend: function (xhr) {
           xhr.setRequestHeader("Content-type", "application/json");//header추가
-          xhr.setRequestHeader("Authorization", "JWT " + token);//header추가
+          xhr.setRequestHeader("Authorization", "Bearer " + token);//header추가
         },
         success: function (res) {
-          console.log(res);
+          if (response['result'] == 'success'){
+            console.log('hi')
+          }
         }
       });
     }
@@ -167,6 +169,8 @@
       let category = $("#category").val()
       let url = $("#floatingUrl").val()
       let comment = $("#floatingTextarea2").val()
+
+      var token = $.cookie('mytoken');
 
       console.log(category, url, comment)
 
