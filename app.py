@@ -68,9 +68,15 @@ def signin():
 
     return jsonify({'result':'success', 'error': error_n})
 
-# @app.route('/api/upload', methods=['POST'])
-# def upload():
-#     return
+@app.route('/api/upload', methods=['POST'])
+def upload():
+    receive_category = request.form['give_category']
+    receive_url = request.form['give_url']
+    receive_comment = request.form['give_comment']
+
+    db.cards.insert_one({'category': receive_category, 'url': receive_url, 'comment': receive_comment})
+
+    return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
