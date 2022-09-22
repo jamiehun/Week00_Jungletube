@@ -47,7 +47,7 @@
             <div class="row cards">
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
                   data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>

@@ -68,7 +68,7 @@ def main():
         videoCount = len(video_list)  # 비디오 개수 세기
         collectionCount = math.ceil(videoCount / 4)  # 비디오 개수 4개로 자르기
         # 비디오 개수 중 4의 배수가 아닌 수에 대한 dummy값 확인
-        def dummyCount(x): return (4 - (x % 4)) if x != 4 else 0
+        def dummyCount(x): return (4 - (x % 4)) if (x % 4) != 0 else 0
         card_count[i] = {'collectionCount': collectionCount, 'dummyCount': dummyCount(
             videoCount), 'cardCount': videoCount}
 
@@ -81,12 +81,12 @@ def login():
     receive_pwd = request.form['give_pwd']
 
     if (receive_id == '') or (receive_pwd == ''):
-        return jsonify({'error': 'no input'})
+        return jsonify({'error': '입력이 없습니다'})
 
     searched_id = db.users.find_one({'id': receive_id})
 
     if searched_id == None: 
-        return jsonify({"error": "ID is not in DB"})
+        return jsonify({"error": "가입되지 않은 ID입니다"})
     else:
         byte_pwd = receive_pwd.encode('UTF-8')
         origin_pwd = bytes.fromhex(searched_id['password'])
@@ -100,12 +100,12 @@ def login():
             return resp
 
         else: 
-            return jsonify({"error": "Wrong Password"})
+            return jsonify({"error": "비밀번호가 틀렸습니다."})
 
     return jsonify({'result': 'success', 'token': access_token})
 
 @app.route('/api/logout', methods=['POST'])
-@jwt_required()
+@jwt_required(optional=True)
 def logout():
     resp = jsonify({'result': 'success'})
     unset_jwt_cookies(resp)
