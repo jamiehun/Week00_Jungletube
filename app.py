@@ -119,6 +119,7 @@ def signin():
     receive_nick = request.form['give_nick']
 
     if (receive_id == '') or (receive_pwd == '') or (receive_nick == ''):
+        print('no input')
         return jsonify({'error': '입력이 없습니다'})
 
     byte_pwd = receive_pwd.encode('UTF-8')
@@ -142,14 +143,24 @@ def upload():
     receive_url = request.form['give_url']
     receive_comment = request.form['give_comment']
 
+    if (receive_id == '') or (receive_pwd == '') or (receive_nick == ''):
+        return jsonify({'error': '입력이 없습니다'})
+
+    searched_url = db.cards.find_one({'url': receive_url})
+    if searched_url != None:
+        return jsonify({'error': '이미 등록된 URL입니다.'})
+
     db.cards.insert_one({'category': receive_category,
                         'url': receive_url, 'comment': receive_comment, 'like': 0})
 
     return jsonify({'result': 'success'})
 
 @app.route('/api/like', methods=['POST'])
-@jwt_required()
+@jwt_required(optional=True)
 def like():
+    if get_jwt() == {}:
+        return jsonify({'error': '로그인해야 합니다.'}) 
+
     receive_url = request.form['give_url']
 
     searched_url = db.cards.find_one({'url': receive_url})
