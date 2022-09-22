@@ -2,28 +2,25 @@
 
 {% block title %}
 
-<!-- <p>{{dict}}</p>
-<hr>
-<p>{{card_count}}</p> -->
-
-
-
 
 <!-- "dict = dict, card_count = card_count" -->
-<!-- {'week2': {'collectionCount': 1, 'dummyCount': 3, 'cardCount': 1}, -->
+<!-- dict는 key = week category / card_count = 카드개수, 더미개수, 콜렉션(카드의 단) 개수 -->
 
 {% for key, value in dict.items() %}
 {% if card_count[key]['collectionCount'] >= 2 %}
-<!-- if collection >= 2 -->
+
+<!-- if collection >= 2 (카드가 2개 단 이상일때) -->
+
 <!-- 타이틀 부분 -->
-<div class="album py-5 bg-light" id="category-list2">
+<div class="album py-5 bg-light week-form" id="category-list2">
   <h1> {{ key }} </h1>
   {% set count_two = namespace(value=1) %}
   <div id="{{key}}" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       {% for temp in value %}
       {% if count_two.value == 1 %}
-      <!-- 첫번째 카드일 때  -->
+
+      <!-- 제일 첫번째 카드일 때  -->
       <div class="carousel-item active">
         <div class="row cards">
           <div class="card col card-form" style="width: 18rem;">
@@ -134,25 +131,23 @@
 
 
 
-<!-- if collection <= 1 -->
-{% elif card_count[key]['collectionCount'] <= 1 %} <!-- 타이틀 부분 -->
+<!-- if collection <= 1 (카드 단이 한개일 때) -->
+{% elif card_count[key]['collectionCount'] <= 1 %} 
+
+<!-- 타이틀 부분 -->
   <div class="album py-5 bg-light" id="category-list2">
 
     <h1> {{ key }} </h1>
     <div class="row cards">
 
       <!-- 카드 갯수가 4개 이하이면 class에 action 없이 구현 -->
-      <!-- 카드개수 : {{ card_count[key]['cardCount'] }} -->
-      <!-- dummy 개수 : {{ card_count[key]['dummyCount'] }} -->
-      <!-- <p>'{{ key }}'</p> -->
-      <!-- <p>{{ card_count}}</p> -->
-      <!-- <p>{{ card_count[key]['cardCount'] }}</p> -->
-
+      <!-- 카드개수표시 : {{ card_count[key]['cardCount'] }} -->
+      <!-- dummy 개수 표시 : {{ card_count[key]['dummyCount'] }} -->
 
       {% set count_one = namespace(value=1) %}
       {% for temp in value %}
 
-      <!-- 카드 섹션 -->
+      <!-- 카드 박스 -->
       <div class="card col card-form" style="width: 18rem;">
         <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg " alt="유튜브 썸네일" class="" alt="..."
           style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
@@ -169,7 +164,7 @@
       {% set count_one.value = count_one.value + 1 %}
       {% endfor %}
 
-      <!-- dummy 올리기 -->
+      <!-- dummy 박스 -->
       {% for i in range(card_count[key]['dummyCount']) %}
       <div class="card col card-form" style="width: 18rem;">
         <img src="https://i.ytimg.com/vi/yPku0DdMHIw/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
