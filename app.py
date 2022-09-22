@@ -82,7 +82,7 @@ def login():
 
     searched_id = db.users.find_one({'id': receive_id})
 
-    if searched_id == None:     # 회원가입 되지 않은 ID 오류
+    if searched_id == None: 
         return jsonify({"msg": "가입하지 않은 ID"}), 400
     else:
         byte_pwd = receive_pwd.encode('UTF-8')
@@ -96,7 +96,7 @@ def login():
 
             return resp
 
-        else:       # 잘못된 비밀번호 오류
+        else: 
             return jsonify({"msg": "잘못된 비밀번호"}), 400
 
     return jsonify({'result': 'success', 'token': access_token})
@@ -121,13 +121,13 @@ def signin():
 
     searched_id = db.users.find_one({'id': receive_id})
 
-    if searched_id != None:         # ID가 중복이면
+    if searched_id != None:
         pass
     else:
         db.users.insert_one(
             {'id': receive_id, 'password': cliper_pwd, 'nickname': receive_nick})
 
-    return jsonify({'result': 'success', 'error': error_n})
+    return jsonify({'result': 'success'})
 
 
 @app.route('/api/upload', methods=['POST'])
