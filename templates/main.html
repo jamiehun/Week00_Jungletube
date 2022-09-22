@@ -212,7 +212,8 @@
     // 동영상 모달 기능
     function videoModaladd(url) {
       console.log('썸네일 클릭할때 동영상 모달켜짐')
-      let targetUrl = $(url).atrr('id')
+      console.log(url)
+      let targetUrl = $(url).attr('id')
       console.log(targetUrl)
       let modalInVideo = `<iframe id="player" type="text/html" width="1100" height="600"
               src="http://www.youtube.com/embed/${targetUrl}?enablejsapi=1&origin=http://example.com"
