@@ -28,7 +28,7 @@
         <div class="row cards">
           <div class="card col card-form" style="width: 18rem;">
             <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-              style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+              style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
               data-bs-toggle="modal" data-bs-target="#videoModal">
             <div class="card-body">
               <p class="card-text">{{ temp['comment'] }}</p>
@@ -64,7 +64,7 @@
               <!-- 두번째, 세번째 카드일 때 -->
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
                   data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>
@@ -82,7 +82,7 @@
               <!-- 네번째 카드일 때 -->
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
                   data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>
@@ -134,26 +134,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- if collection <= 1 -->
 {% elif card_count[key]['collectionCount'] <= 1 %} <!-- 타이틀 부분 -->
   <div class="album py-5 bg-light" id="category-list2">
@@ -175,7 +155,7 @@
       <!-- 카드 섹션 -->
       <div class="card col card-form" style="width: 18rem;">
         <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg " alt="유튜브 썸네일" class="" alt="..."
-          style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+          style="height: 150px; width:auto;" onclick="videoModaladd(this)" id="{{temp['url']}}"
           data-bs-toggle="modal" data-bs-target="#videoModal">
         <div class="card-body">
           <p class="card-text">{{ temp['comment'] }}</p>
