@@ -28,12 +28,14 @@
         <div class="row cards">
           <div class="card col card-form" style="width: 18rem;">
             <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-              style="height: 150px; width:auto;" onclick="videoModaladd()" value="{{temp['url']}}">
+              style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+              data-bs-toggle="modal" data-bs-target="#videoModal">
             <div class="card-body">
               <p class="card-text">{{ temp['comment'] }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-                <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i class="bi bi-chat-heart"></i></button>
+                <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i
+                    class="bi bi-chat-heart"></i></button>
               </div>
             </div>
           </div>
@@ -45,12 +47,14 @@
             <div class="row cards">
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;">
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                    <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i
+                        class="bi bi-chat-heart"></i></button>
                   </div>
                 </div>
               </div>
@@ -60,12 +64,14 @@
               <!-- 두번째, 세번째 카드일 때 -->
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;">
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                    <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i
+                        class="bi bi-chat-heart"></i></button>
                   </div>
                 </div>
               </div>
@@ -76,12 +82,14 @@
               <!-- 네번째 카드일 때 -->
               <div class="card col card-form" style="width: 18rem;">
                 <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg" alt="유튜브 썸네일" class="" alt="..."
-                  style="height: 150px; width:auto;">
+                  style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+                  data-bs-toggle="modal" data-bs-target="#videoModal">
                 <div class="card-body">
                   <p class="card-text">{{ temp['comment'] }}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-                    <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+                    <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i
+                        class="bi bi-chat-heart"></i></button>
                   </div>
                 </div>
               </div>
@@ -167,12 +175,14 @@
       <!-- 카드 섹션 -->
       <div class="card col card-form" style="width: 18rem;">
         <img src="https://img.youtube.com/vi/{{ temp['url'] }}/mqdefault.jpg " alt="유튜브 썸네일" class="" alt="..."
-          style="height: 150px; width:auto;">
+          style="height: 150px; width:auto;" onclick="videoModaladd(this)" value="{{temp['url']}}"
+          data-bs-toggle="modal" data-bs-target="#videoModal">
         <div class="card-body">
           <p class="card-text">{{ temp['comment'] }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <a><i class="bi bi-fire"></i>{{ temp['like'] }} </a>
-            <button type="button" class="btn btn-link"><i class="bi bi-chat-heart"></i></button>
+            <button type="button" class="btn btn-link" onclick="likeClick(this)" value="{{temp['url']}}"><i
+                class="bi bi-chat-heart"></i></button>
           </div>
         </div>
       </div>
