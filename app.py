@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config["JWT_TOKEN_LOCATION"] = ['cookies']
 
 app.config["JWT_SESSION_COOKIE"] = False
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=10)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=60)
 
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 app.config["JWT_COOKIE_SECURE"] = False
@@ -30,20 +30,20 @@ client = MongoClient('mongodb://cho:cho@13.124.49.24', 27017)
 db = client.jungletube
 
 
-# @app.after_request
-# def refresh_expiring_jwts(resp):
-#     try:
-#         exp_timestamp = get_jwt()['exp']
-#         now = datetime.now(timezone.utc)
-#         target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+@app.after_request
+def refresh_expiring_jwts(resp):
+    try:
+        exp_timestamp = get_jwt()['exp']
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
 
-#         if target_timestamp > exp_timestamp:
-#             access_token = create_access_token(identity=get_jwt_identity())
-#             set_access_cookies(resp, access_token)
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(resp, access_token)
 
-#         return resp
-#     except (RuntimeError, KeyError):
-#         return resp
+        return resp
+    except (RuntimeError, KeyError):
+        return resp
 
 @app.route('/')
 def main():
@@ -143,7 +143,7 @@ def upload():
     receive_url = request.form['give_url']
     receive_comment = request.form['give_comment']
 
-    if (receive_id == '') or (receive_pwd == '') or (receive_nick == ''):
+    if (receive_url == '') or (receive_comment == ''):
         return jsonify({'error': '입력이 없습니다'})
 
     searched_url = db.cards.find_one({'url': receive_url})
@@ -158,7 +158,10 @@ def upload():
 @app.route('/api/like', methods=['POST'])
 @jwt_required(optional=True)
 def like():
-    if get_jwt() == {}:
+    is_jwt_valid = bool(get_jwt())
+    print(is_jwt_valid)
+
+    if not is_jwt_valid:
         return jsonify({'error': '로그인해야 합니다.'}) 
 
     receive_url = request.form['give_url']
