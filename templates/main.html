@@ -116,13 +116,14 @@
       }
 
     $(document).ready(function () {
+
       if ($.cookie('access_token_cookie')) {
         $("#login").hide();
         $("#signup").hide();
         $("#upload").show();
-        $("#logout").show();
-      }
-    });
+        $("#logout").show();        
+      };
+    })
     // 회원가입 클릭시
     function signup() {
       console.log("회원가입신청!")
@@ -229,7 +230,7 @@
 
             if (response["result"] == "success") {
               alert("저장 완료!");
-              window.location.reload()
+              // window.location.reload()
             }
           }
         })
@@ -267,7 +268,7 @@
         data: { 'give_url': targetUrl, },
         success: function (response) {
           error_handler(response)
-          
+
           if (response["result"] == "success") {
             alert("좋아요 완료 완료!");
             // 좋아요시 리로드 
@@ -564,7 +565,7 @@
             <div class="modal-header">
               <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png"
                 style="width: 40px;" />
-              <h5 class="modal-title" id="exampleModalLabel">코멘트 넣어주면될듯d</h5>
+              <h5 class="modal-title" id="exampleModalLabel">크게보기</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close"
                 onclick="videoModalExit()"></button>

@@ -45,6 +45,8 @@ def refresh_expiring_jwts(resp):
     except (RuntimeError, KeyError):
         return resp
 
+
+
 @app.route('/')
 def main():
     # db.cards에서 category 찾아서 week만 분류해놓기
@@ -159,8 +161,7 @@ def upload():
 @jwt_required(optional=True)
 def like():
     is_jwt_valid = bool(get_jwt())
-    print(is_jwt_valid)
-
+    
     if not is_jwt_valid:
         return jsonify({'error': '로그인해야 합니다.'}) 
 
