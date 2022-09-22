@@ -90,6 +90,9 @@
     #category-list {
       padding: 10px;
     }
+    .week-form  {
+      padding: 1.5rem;
+    }
   </style>
   <script>
 
@@ -156,7 +159,7 @@
         url: "/api/logout",
         success: function (res) {
           if (res['result'] == 'success') {
-            console.log('hi')
+            alert('로그아웃 되셨습니다!')
             $("#login").show();
             $("#signup").show();
             $("#upload").hide();
@@ -174,17 +177,16 @@
       let oriUrl = $("#floatingUrl").val()
       let oneUrl = oriUrl.split('/')
       let url = oneUrl[oneUrl.length - 1]
+      // 유튜브 링크가 두가지가 있는데 watch가 포함된 경우 잘라주기
       if (url.includes('=')) {
         url = url.substring(8)
       }
+      // 유튜브 링크에 시간초가 포함되어있을떄
       if (url[url.length - 1] = 's') {
-        rurl = url.split('&')
+        url = url.split('&')[0]
       }
-      console.log(rurl[0])
-
+       
       let comment = $("#floatingTextarea2").val()
-
-      var token = $.cookie('mytoken');
 
       console.log(category, url, comment)
 
