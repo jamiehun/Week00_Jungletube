@@ -137,10 +137,10 @@
         success: function (response) { // 성공하면
           if (response["result"] == "success") {
             alert("로그인 성공!");
-            if (response['result'] == 'success') {
-              window.location.reload()
-
-            }
+            $("#login").hide();
+            $("#signup").hide();
+            $("#upload").show();
+            $("#logout").show();
           } else {
             alert(response['msg'])
           }
@@ -173,11 +173,14 @@
       // url 자르기
       let oriUrl = $("#floatingUrl").val()
       let oneUrl = oriUrl.split('/')
-      let url = oneUrl[-1]
-      if (url[-1] = 's') {
-        url = url[-1].split('&')
+      let url = oneUrl[oneUrl.length-1]
+      if (url.includes('=')){
+        url = url.substring(8)
       }
-      console.log(url)
+      if (url[url.length-1] = 's') {
+        rurl = url.split('&')
+      }
+      console.log(rurl[0])
 
       let comment = $("#floatingTextarea2").val()
 
@@ -215,6 +218,7 @@
     function videoModaladd(url) {
       console.log('썸네일 클릭할때 동영상 모달켜짐')
       let targetUrl = $(url).val()
+      console.log(targetUrl)
       let modalInVideo = `<iframe id="player" type="text/html" width="1100" height="600"
               src="http://www.youtube.com/embed/${targetUrl}?enablejsapi=1&origin=http://example.com"
               frameborder="0"></iframe>`
@@ -272,10 +276,10 @@
           로그인
         </a>
         <a href="#" id="upload" class=" align-items signup" data-bs-toggle="modal" data-bs-target="#uploadModal"
-          style="display: None;">
+          style="display: none;">
           글쓰기
         </a>
-        <a href="#" id="logout" class=" align-items logout" onclick="logout()" style="display: None;">
+        <a href="#" id="logout" class=" align-items logout" onclick="logout()" style="display: none;">
           로그아웃
         </a>
       </div>

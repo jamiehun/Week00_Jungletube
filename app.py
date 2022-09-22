@@ -80,10 +80,13 @@ def login():
     receive_id = request.form['give_id']
     receive_pwd = request.form['give_pwd']
 
+    if (receive_id == '') or (receive_pwd == ''):
+        return jsonify({'error': 'no input'})
+
     searched_id = db.users.find_one({'id': receive_id})
 
     if searched_id == None: 
-        return jsonify({"msg": "가입하지 않은 ID"}), 400
+        return jsonify({"error": "ID is not in DB"})
     else:
         byte_pwd = receive_pwd.encode('UTF-8')
         origin_pwd = bytes.fromhex(searched_id['password'])
@@ -97,7 +100,7 @@ def login():
             return resp
 
         else: 
-            return jsonify({"msg": "잘못된 비밀번호"}), 400
+            return jsonify({"error": "Wrong Password"})
 
     return jsonify({'result': 'success', 'token': access_token})
 
