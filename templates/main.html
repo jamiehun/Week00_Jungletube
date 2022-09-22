@@ -173,11 +173,11 @@
       // url 자르기
       let oriUrl = $("#floatingUrl").val()
       let oneUrl = oriUrl.split('/')
-      let url = oneUrl[oneUrl.length-1]
-      if (url.includes('=')){
+      let url = oneUrl[oneUrl.length - 1]
+      if (url.includes('=')) {
         url = url.substring(8)
       }
-      if (url[url.length-1] = 's') {
+      if (url[url.length - 1] = 's') {
         rurl = url.split('&')
       }
       console.log(rurl[0])
@@ -192,9 +192,6 @@
         $.ajax({
           type: "POST",
           url: "/api/upload",
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + token);
-          },
           data: {
             'give_category': category,
             'give_url': url,
@@ -203,9 +200,7 @@
           success: function (response) { // 성공하면
             if (response["result"] == "success") {
               alert("저장 완료!");
-              window
-                .location
-                .reload()
+              window.location.reload()
             }
           }
         })
@@ -217,9 +212,7 @@
     // 동영상 모달 기능
     function videoModaladd(url) {
       console.log('썸네일 클릭할때 동영상 모달켜짐')
-      console.log(url)
-      console.log($(url).attr('id'))
-      let targetUrl = $(url).val()
+      let targetUrl = $(url).atrr('id')
       console.log(targetUrl)
       let modalInVideo = `<iframe id="player" type="text/html" width="1100" height="600"
               src="http://www.youtube.com/embed/${targetUrl}?enablejsapi=1&origin=http://example.com"
@@ -460,7 +453,7 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             <button type="button" class="btn btn-info" data-bs-toggle="modal"
               data-bs-target="#signupModal">회원가입</button>
-            <button type="button" class="btn btn-primary" onclick="checkLogin()">로그인</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="checkLogin()">로그인</button>
           </div>
         </div>
       </div>
@@ -515,7 +508,8 @@
           <div class="modal-header">
             <img src="https://cdn-icons-png.flaticon.com/512/1776/1776999.png" style="width: 40px;" />
             <h5 class="modal-title" id="exampleModalLabel">코멘트 넣어주면될듯d</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              onclick="videoModalExit()"></button>
           </div>
           <div class="modal-body" id="videoModalArea">
           </div>
